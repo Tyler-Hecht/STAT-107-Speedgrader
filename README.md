@@ -8,7 +8,7 @@ Setup:
 
 How to Use:
 - `flask run` to start
-- Go to the port listed in the terminal or `[localhost](http://localhost:1989/)`
+- Go to the port listed in the terminal or `http://localhost:1989/`
 - Select a section, lab, and deadline (optional) from the dropdowns
 - You can switch between students with prev/next or the dropdown
 - If a student's notebook has not been previously loaded for a lab and deadline, it will take a few seconds to load
