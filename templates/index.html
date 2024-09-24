@@ -1,0 +1,182 @@
+<!-- you want better ui? write it yourself -->
+<!doctype html>
+<html lang="en">
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <h1 style="font-size: 30px;">SpeedGrader</h1>
+
+        <!-- dropdown for section in sections -->
+        <select id="sections" onchange="loadSection()">
+            <option value="">Select a section</option>
+            {% for section in sections %}
+                <option value="{{ section.name }}">{{ section.name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- prev and next buttons -->
+        <button id="prev" onclick="prevStudent()">Prev</button>
+        <button id="next" onclick="nextStudent()">Next</button>
+
+        <!-- load all files button -->
+        <button id="load" type="button" onclick="loadAllFiles()" style="margin-left: 10px">Load All Section Files</button>
+
+        <label for="students" style="margin-left: 10px; font-size: 15px" id="progress"></label>
+        <select id="students" style="margin-left: 10px;" onchange="loadStudent()">
+            <option value="">Select a student</option>
+        </select>
+
+        <!-- right side -->
+
+        <button id="clear" type="button" onclick="clearFiles()" style="float: right; margin-right: 0px">Clear All Files</button>
+
+        <input type="date" id="deadline" name="deadline" style="float: right; margin-right: 10px;" onchange="loadSection()">
+        <label for="deadline" style="float: right; font-size: 15px; margin-right: 5px;">Deadline:</label>
+
+        <div style="float: right; margin-right: 10px;">
+            <select id="lab" onchange="loadSection()">
+                <option value="">Select a lab</option>
+                {% for lab in labs %}
+                    <option value="{{ lab.path }}">{{ lab.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <p id="student" style="font-size: 15px;">
+        </p>
+
+        <!-- notebook area -->
+        <div id="notebook" style="overflow: auto; height: 500px; width: 100%; border: 1px solid black;">
+        </div>
+    </body>
+
+
+
+    <script>
+        function fillStudent(data) {
+            $("#student").html(
+                "Name: " + data.name + "<br>" + "NetID: " + data.netid
+            );
+            
+            let formData2 = {
+                deadline: $("#deadline").val(),
+                file: $("#lab").val()
+            };
+            $.post("/loadStudent", formData2)
+            .done(function(data) {
+                // update notebook div with lab_pandas.html
+                $("#notebook").html(data);
+            });
+
+            // update progress label
+            $.post("/getProgress")
+            .done(function(data) {
+                $("#progress").text(data);
+            });
+        }
+
+        function loadSection() {
+            if ($("#sections").val() == "") {
+                return;
+            }
+            let formData = {
+                section: $("#sections").val()
+            };
+            // clear notebook div
+            $("#notebook").html("");
+            $.post("/loadSection", formData)
+            .done(function(data) {
+                if ($("#lab").val() != "") {
+                    fillStudent(data);
+                }
+                var students = data.students;
+                // fill students dropdown with netid as value and name as text
+                $("#students").html("");
+                for (var i = 0; i < students.length; i++) {
+                    $("#students").append(
+                        $("<option></option>").attr("value", students[i].netid).text(students[i].name)
+                    );
+                }
+            }); 
+        }
+
+        function loadStudent() {
+            if ($("#students").val() == "") {
+                return;
+            }
+            let formData = {
+                netid: $("#students").val(),
+                name: $("#students option:selected").text(),
+                deadline: $("#deadline").val(),
+                file: $("#lab").val()
+            };
+            // clear notebook div
+            $("#notebook").html("");
+            
+            $("#student").html(
+                    "Name: " + $("#students").val() + "<br>" + "NetID: " + $("#students option:selected").text()
+            );
+            $.post("/loadStudent", formData)
+            .done(function(data) {
+                // update notebook div with lab_pandas.html
+                $("#notebook").html(data);
+            });
+
+            // update progress label
+            $.post("/getProgress")
+            .done(function(data) {
+                $("#progress").text(data);
+            });
+        }
+
+        function nextStudent() {
+            let formData = {};
+            // clear notebook div
+            $("#notebook").html("");
+            $.post("/nextStudent", formData)
+            .done(function(data) {
+                fillStudent(data);
+                $("#students").val(data.netid);
+            });     
+        }
+
+        function prevStudent() {
+            let formData = {};
+            // clear notebook div
+            $("#notebook").html("");
+            $.post("/prevStudent", formData)
+            .done(function(data) {
+                fillStudent(data);
+                $("#students").val(data.netid);
+            }); 
+        }
+
+        function clearFiles() {
+            let formData = {};
+            $.post("/clearFiles", formData)
+            .done(function(data) {
+                // files clear message
+                alert(data);
+                // clear notebook div
+                $("#notebook").html("");
+            });
+        }
+
+        function loadAllFiles() {
+            let formData = {
+                deadline: $("#deadline").val(),
+                file: $("#lab").val()
+            };
+            $.post("/loadAllFiles", formData)
+            .done(function(data) {
+                // files loaded message
+                alert(data);
+            });
+        }
+    </script>
+
+
+
+</html>

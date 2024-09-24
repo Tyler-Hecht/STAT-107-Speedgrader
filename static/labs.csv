@@ -1,0 +1,16 @@
+name,path
+lab_intro,lab_intro/lab_intro.ipynb
+lab_pandas,lab_pandas/lab_pandas.ipynb
+lab_exp_design,lab_exp_design/lab_exp_design.ipynb
+lab_simpsons_paradox,lab_simpsons_paradox/lab_simpsons_paradox.ipynb
+lab_plots,lab_plots/lab_plots.ipynb
+lab_gpa,lab_gpa/lab_gpa.ipynb
+lab_favorites,lab_favorites/lab_favorites.ipynb
+lab_similarity,lab_similarity/lab_similarity.ipynb
+lab_justice,lab_justice/lab_justice.ipynb
+lab_probability,lab_probability/lab_probability.ipynb
+lab_random_variable,lab_random_variable/lab_random_variable.ipynb
+lab_populations,lab_populations/lab_populations.ipynb
+lab_hypothesis_tests,lab_hypothesis_tests/lab_hypothesis_tests.ipynb
+lab_regression,lab_regression/lab_regression.ipynb
+project-mosaic,project-mosaic/mosaic.ipynb
