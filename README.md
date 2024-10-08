@@ -5,6 +5,7 @@ Setup:
 1. Go to [https://my.siebelschool.illinois.edu/](https://my.siebelschool.illinois.edu/) and select your lab sections, then export to CSV
 2. Name the CSV file `roster.csv` and place in static folder
 3. Put your GitHub token in `token.txt` (make sure the token is authorized for STAT 107)
+4. Make sure the Python packages `flask`, `requests`, `pandas`, and `pytz` are installed
 
 How to Use:
 - `flask run` to start
