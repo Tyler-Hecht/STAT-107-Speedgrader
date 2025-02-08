@@ -58,7 +58,7 @@ def is_relevant_commit(commit, deadline, netid, name):
 
 def load_notebook(netid, deadline, file, name, token):
     commits = requests.get(
-        f'https://api.github.com/repos/stat107-illinois/fa24_stat107_{netid}/commits',
+        f'https://api.github.com/repos/stat107-illinois/sp25_stat107_{netid}/commits',
         headers={
             'accept': 'application/vnd.github.v3.raw',
             'authorization': f'token {token}'
@@ -74,7 +74,7 @@ def load_notebook(netid, deadline, file, name, token):
     latest_commit["commit"]["message"]
 
     notebook = requests.get(
-    f'https://api.github.com/repos/stat107-illinois/fa24_stat107_{netid}/contents/{file}?ref={latest_commit["sha"]}',
+    f'https://api.github.com/repos/stat107-illinois/sp25_stat107_{netid}/contents/{file}?ref={latest_commit["sha"]}',
     headers={
         'accept': 'application/vnd.github.v3.raw',
         'authorization': f'token {token}'
